@@ -10,8 +10,8 @@ export default function SettingsPage(){
         <div className={styles.container}>
             <ChangeAvatar/>
             <div className={styles.cards}>
-               <PassCard/>
-               <MailCard/>
+                <PassCard/>
+                <MailCard/>
                 <NotificationCard/>
             </div>
         </div>

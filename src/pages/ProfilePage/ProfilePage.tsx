@@ -1,7 +1,26 @@
+import { useState, useEffect } from 'react';
 import styles from './ProfilePage.module.scss'
+import { getMyProfileRequest } from '../../api/user'; 
 import { mockUser } from '../../utils/mockData';
 
-export default function ProfilePage(){
+type UserData = { 
+    status: string,
+    role: string,
+    name: string,
+    mail: string, 
+    balance: string
+}
+
+export default function ProfilePage() {
+    const [user, setUser] = useState<UserData | null>(null);
+
+    useEffect(() => {
+        getMyProfileRequest().then((res) => {
+            console.log(res?.data)
+            setUser(res?.data)
+        }).catch((err) => console.log(err))
+    }, [])
+
     return(
         <div className={styles.container}>
             <div className={styles.title}>Профиль</div>
@@ -11,7 +30,7 @@ export default function ProfilePage(){
                     <div className={styles.contentLeft}>
                         <div>
                             <img src={mockUser.avatar} />
-                            <p>{mockUser.status}</p>
+                            <p>{user?.status ?? 'Не найдено'}</p>
                         </div>
                         <div>
                             <span>Ваш статус:</span>
@@ -21,10 +40,10 @@ export default function ProfilePage(){
                         </div>
                     </div>
                     <div className={styles.contentRight}>
-                        <span>{mockUser.role}</span>
-                        <span>{mockUser.name}</span>
-                        <span>{mockUser.mail}</span>
-                        <span>{mockUser.balance} p</span>
+                        <span>{user?.role ?? 'Не найдено'}</span>
+                        <span>{user?.name ?? 'Не найдено'}</span>
+                        <span>{user?.mail ?? 'Не найдено'}</span>
+                        <span>{user?.balance ?? 'Не найдено'}</span>
                     </div>
                 </div>
             </div>
