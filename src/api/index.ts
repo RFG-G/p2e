@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const BASE_URL = process.env.BASE_URL ?? "http://46.17.100.150"
+
 const requestClient = axios.create({
-    baseURL: "https://1428-176-52-97-193.eu.ngrok.io/api/v1/",
+    baseURL: `${BASE_URL}/api/v1/`,
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -9,7 +11,7 @@ const requestClient = axios.create({
 })
 
 requestClient.interceptors.request.use((config) => {
-    config.headers.Authorization = "Bearer " + localStorage.getItem("token");
+    if (config.headers) config.headers.Authorization = "Bearer " + localStorage.getItem("token");
     return config
 }, (error) => {
     return Promise.reject(error);
@@ -18,7 +20,9 @@ requestClient.interceptors.request.use((config) => {
 requestClient.interceptors.response.use((response) => {
     return response;
 }, (error) => {
-    return Promise.reject(error.response);
+    return Promise.reject(error);
 });
+
+export const getProfilePhotoURL = (username: string) => `${BASE_URL}/image/user/${username}.png`
 
 export default requestClient;

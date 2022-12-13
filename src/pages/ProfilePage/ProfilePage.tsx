@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import styles from './ProfilePage.module.scss'
+import { getProfilePhotoURL } from '../../api';
 import { getMyProfileRequest } from '../../api/user'; 
 import { mockUser } from '../../utils/mockData';
 
 type UserData = { 
-    status: string,
+    status: any,
     role: string,
-    name: string,
-    mail: string, 
+    login: string,
+    email: string, 
+    profile_photo?: string,
     balance: string
 }
 
@@ -15,10 +17,10 @@ export default function ProfilePage() {
     const [user, setUser] = useState<UserData | null>(null);
 
     useEffect(() => {
-        getMyProfileRequest().then((res) => {
-            console.log(res?.data)
+        getMyProfileRequest().then((res: any) => {
+            console.log('getMyProfileRequest res', res?.data)
             setUser(res?.data)
-        }).catch((err) => console.log(err))
+        }).catch((err: any) => console.log('getMyProfileRequest err', err))
     }, [])
 
     return(
@@ -29,8 +31,8 @@ export default function ProfilePage() {
                 <div className={styles.content}>
                     <div className={styles.contentLeft}>
                         <div>
-                            <img src={mockUser.avatar} />
-                            <p>{user?.status ?? 'Не найдено'}</p>
+                            <img src={user?.login ? getProfilePhotoURL(user?.login) : mockUser.avatar} alt="Avatar" />
+                            {/* <p>{user?.status ? JSON.parse(user?.status)?.['ru'] : 'Не найдено'}</p> */}
                         </div>
                         <div>
                             <span>Ваш статус:</span>
@@ -41,8 +43,8 @@ export default function ProfilePage() {
                     </div>
                     <div className={styles.contentRight}>
                         <span>{user?.role ?? 'Не найдено'}</span>
-                        <span>{user?.name ?? 'Не найдено'}</span>
-                        <span>{user?.mail ?? 'Не найдено'}</span>
+                        <span>{user?.login ?? 'Не найдено'}</span>
+                        <span>{user?.email ?? 'Не найдено'}</span>
                         <span>{user?.balance ?? 'Не найдено'}</span>
                     </div>
                 </div>

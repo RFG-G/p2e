@@ -1,10 +1,10 @@
-import requestClient from './';
+import requestClient from '.';
 
-export const getMyProfileRequest = async () => {
-    return await requestClient.get('user/my_profile')
+export const getMyProfileRequest = () => {
+    return requestClient.get('user/my_profile')
 }
 
-export const updateProfiveImageRequest = async (image) => {
+export const updateProfileImageRequest = async (image: any) => {
     const formData = new FormData();
     formData.append('image', image);
 
@@ -15,7 +15,7 @@ export const updateProfiveImageRequest = async (image) => {
     })
 }
 
-export const changePasswordRequest = async (old_password, new_password, new_password_confirm) => {
+export const changePasswordRequest = async (old_password: string, new_password: string, new_password_confirm: string) => {
     return await requestClient.post('user/change_password', {
         old_password, new_password, new_password_confirm
     })

@@ -1,7 +1,7 @@
 import styles from './SettingsPage.module.scss'
 import manSvg from '../../assets/man.svg'
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
-import { updateProfiveImageRequest } from '../../api/user'
+import { ChangeEvent, useCallback, useRef, useState } from 'react'
+import { updateProfileImageRequest } from '../../api/user'
 import { toast } from 'react-toastify';
 
 export default function ChangeAvatar(){
@@ -17,7 +17,7 @@ export default function ChangeAvatar(){
         console.log(file)
         if (file) {
             setCur(file);
-            updateProfiveImageRequest(file).then(() => {
+            updateProfileImageRequest(file).then(() => {
                 toast('Фото профиля изменено')
             }).catch(() => {
                 toast('Ошибка при смене фото профиля', { type: 'error' });
